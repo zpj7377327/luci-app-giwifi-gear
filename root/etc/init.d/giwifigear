@@ -1,0 +1,40 @@
+#!/bin/sh /etc/rc.common
+START=50
+
+run_gear()
+{
+	local enable
+	config_get_bool enable $1 enable
+	
+	if [ $enable ]; then
+		local username
+		local password
+		local gateway
+		local iface
+		local type
+		
+		config_get username $1 username
+		config_get password $1 password
+		config_get iface $1 iface
+        config_get gateway $1 gateway
+        config_get type $1 type
+		
+
+		giwifi-gear -u $username -p $password -g $gateway -i $iface -t $type &
+		
+		echo "GiWiFi Gear has started."
+	fi
+}
+
+start()
+{
+	config_load giwifigear
+	config_foreach run_gear login
+}
+
+stop()
+{
+	killall giwifi-gear
+	
+	echo "GiWiFi Gear has stoped."
+}

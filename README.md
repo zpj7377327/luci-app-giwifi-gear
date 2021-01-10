@@ -1,1 +1,1 @@
-# luci-app-giwifi-gear
+# luci-app-giwifigear
